@@ -1,14 +1,14 @@
 #Script zur berechnung von Mittelwert, Varianz und Standardabweichung von Messwerten
-#Gaetano Fresa 28.11.2016 17:22
+#Gaetano Fresa 28.11.2016 5:22 PM GMT+1
 
 
 import math
-print "Bitte Anzahl der Messwerte eingeben: "
+print "Please declare # of samples: "
 anzahl=input()
-print "Bitte Einheit der Messwerte eingeben: "
+print "Please declare sample unit: "
 einheit=raw_input()
 werte=[]
-print "Bitte Messwerte eingeben"
+print "Please input samples, after ech sample hit return:"
 
 
 for a in range (0,anzahl):
@@ -21,7 +21,7 @@ val=0
 for b in range (len(werte)):
 	val=val+werte[b]
 
-print "Der Mittelwert betraegt: "
+print "arithmetic mean: "
 mw=val/len(werte)
 print mw ,einheit
 print " "
@@ -39,6 +39,6 @@ print dt, einheit
 print " "
 
 s=math.sqrt(dt)
-print "Die Standardabweichung der Einzelmesswerte betraegt: "
+print "standard variance: "
 print s, einheit
 print " "
