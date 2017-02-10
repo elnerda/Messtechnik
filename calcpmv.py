@@ -13,17 +13,17 @@ from decimal import Decimal as D
 from datetime import datetime
 
 
-def calcpmv(tc, rh):
+def calcpmv(t1,t2, rh1):
 	clo=D(0.5)
 	met=D(1.6)
 	w=D(0.0)
 
 	# Messwerte
 
-	ta=D(tc)              # Lufttemperatur
-	tr=D(27.0)              # Strahlungstemperatur
+	ta=D(t1)              # Lufttemperatur
+	tr=D(t2)              # Strahlungstemperatur
 	vel=D(0.3)              # Luftgeschwindigkeit
-	rh=D(rh)              # Relative Luftfeuchtigkeit
+	rh=D(rh1)              # Relative Luftfeuchtigkeit
 
 	# abgeleitete Konstanten
 
@@ -97,17 +97,17 @@ def calcpmv(tc, rh):
 	return pmv
 
 
-def calcppd(tc, rh):
+def calcppd(t1,t2, rh1):
 	clo=D(0.5)
 	met=D(1.6)
 	w=D(0.0)
 
 	# Messwerte
 
-	ta=D(tc)              # Lufttemperatur
-	tr=D(27.0)              # Strahlungstemperatur
+	ta=D(t1)              # Lufttemperatur
+	tr=D(t2)              # Strahlungstemperatur
 	vel=D(0.3)              # Luftgeschwindigkeit
-	rh=D(rh)              # Relative Luftfeuchtigkeit
+	rh=D(rh1)              # Relative Luftfeuchtigkeit
 
 	# abgeleitete Konstanten
 
@@ -253,28 +253,34 @@ else:
 
 	
 		while 1:
-			ser.write("t")
-			tc=ser.read(10)
-			print "Temperatur in C: " +tc
+			ser.write("1")
+			t1=ser.read(10)
+			print "Temperatur1 in C: " +t1
+			time.sleep(1)		#zeit zum warten
+			ser.write("2")
+			t2=ser.read(10)
+			print "Temperatur2 in C: " +t2
 			time.sleep(1)		#zeit zum warten
 			ser.write("h")
-			rh=ser.read(10)
-			print "Luftfeuchte %: "+rh
+			rh1=ser.read(10)
+			#print(repr(rh1))
+			print "Luftfeuchte %: "+rh1
 			time.sleep(1)		#zeit zm warten
 
 
 			#######PMV berechnen#####
-			pmv=calcpmv(tc,rh)
-			ppd=calcppd(tc,rh)
+			pmv=calcpmv(t1,t2,rh1)
+			ppd=calcppd(t1,t2,rh1)
 			print pmv
 			print ppd
 			time.sleep(1)
-			str1=str(tc)
-			str2=str(rh)
-			str3=str(pmv)
-			str4=str(ppd)
+			str1=str(t1)
+			str2=str(t2)
+			str3=str(rh1)
+			str4=str(pmv)
+			str5=str(ppd)
 			localtime=str(datetime.now())
-			newstr= ",".join((localtime,str1,str2,str3,str4))
+			newstr= ",".join((localtime,str1,str2,str3,str4,str5))
 
 			print newstr
 			print "In Datei save.txt speichern"
