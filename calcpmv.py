@@ -230,16 +230,43 @@ else:
 
 	
 		while 1:
-			t=ser.read(1)
-			if t=='t':
-			
-				x=ser.read(10)
-				print x
-				#time.sleep(1)
-			elif t=='p':
-				y=ser.read(10)
-				print y
-				#time.sleep(1)
+			ser.write("1")
+			t1=ser.read(10)
+			print "Temperatur1 in C: " +t1
+			time.sleep(1)		#zeit zum warten
+			ser.write("2")
+			t2=ser.read(10)
+			print "Temperatur2 in C: " +t2
+			time.sleep(1)		#zeit zum warten
+			ser.write("h")
+			rh1=ser.read(10)
+			#print(repr(rh1))
+			print "Luftfeuchte %: "+rh1
+			time.sleep(1)		#zeit zm warten
+
+
+			#######PMV berechnen#####
+			pmv=calcpmv(t1,t2,rh1)
+			ppd=calcppd(t1,t2,rh1)
+			print pmv
+			print ppd
+			time.sleep(1)
+			str1=str(t1)
+			str2=str(t2)
+			str3=str(rh1)
+			str4=str(pmv)
+			str5=str(ppd)
+			localtime=str(datetime.now())
+			newstr= ",".join((localtime,str1,str2,str3,str4,str5))
+
+			print newstr
+			print "In Datei save.txt speichern"
+			fo=open("save.txt","a+")
+			fo.write(newstr)
+			fo.write("\n")
+			fo.write("\r")
+			fo.close()
+
 			
 	
 	elif xx.startswith('Lin'):
